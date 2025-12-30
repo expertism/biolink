@@ -1,0 +1,18 @@
+# Node
+/node_modules
+npm-debug.log*
+
+# Next.js / build
+/.next
+/out
+
+# Lockfiles 
+package-lock.json
+
+
+# Editor
+.vscode
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

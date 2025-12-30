@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "annabel";
+  src: url("/fonts/annabel.ttf") format("truetype");
+}
+
+.font-custom {
+  font-family: "annabel", sans-serif !important;
+}
