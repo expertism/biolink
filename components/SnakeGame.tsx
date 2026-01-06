@@ -276,7 +276,7 @@ export default function SnakeGame({ onClose, retryable }: SnakeGameProps) {
           </div>
           <div
             ref={containerRef}
-            className="relative mx-auto bg-zinc-950 border border-zinc-800 rounded-sm"
+            className="relative mx-auto bg-zinc-950 border border-zinc-800"
             style={{
               width: 240,
               height: 240,
