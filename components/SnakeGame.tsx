@@ -42,9 +42,25 @@ export default function SnakeGame({ onClose, retryable }: SnakeGameProps) {
   const [started, setStarted] = useState(false);
 
   const moveRef = useRef(direction);
+  const foodRef = useRef(food);
+  const scoreRef = useRef(score);
+  const highRef = useRef(high);
+
   useEffect(() => {
     moveRef.current = direction;
   }, [direction]);
+
+  useEffect(() => {
+    foodRef.current = food;
+  }, [food]);
+
+  useEffect(() => {
+    scoreRef.current = score;
+  }, [score]);
+
+  useEffect(() => {
+    highRef.current = high;
+  }, [high]);
 
   useEffect(() => {
     if (!started || gameOver || paused) return;
@@ -62,14 +78,17 @@ export default function SnakeGame({ onClose, retryable }: SnakeGameProps) {
           prev.some((s) => s.x === newHead.x && s.y === newHead.y)
         ) {
           setGameOver(true);
-          if (score > high) {
-            setHigh(score);
-            localStorage.setItem("snake_high", String(score));
+          if (scoreRef.current > highRef.current) {
+            setHigh(scoreRef.current);
+            localStorage.setItem("snake_high", String(scoreRef.current));
           }
           return prev;
         }
         let newSnake;
-        if (newHead.x === food.x && newHead.y === food.y) {
+        if (
+          newHead.x === foodRef.current.x &&
+          newHead.y === foodRef.current.y
+        ) {
           newSnake = [newHead, ...prev];
           setFood(getRandomFood(newSnake));
           setScore((s) => s + 1);
@@ -80,7 +99,7 @@ export default function SnakeGame({ onClose, retryable }: SnakeGameProps) {
       });
     }, SPEED);
     return () => clearInterval(interval);
-  }, [gameOver, paused, food, score, high, started, snake]);
+  }, [gameOver, paused, started]);
 
   function restart() {
     setSnake(INITIAL_SNAKE);
@@ -199,6 +218,11 @@ export default function SnakeGame({ onClose, retryable }: SnakeGameProps) {
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
+      if (e.key === " ") {
+        e.preventDefault();
+        if (started && !gameOver) setPaused((p) => !p);
+        return;
+      }
       if (gameOver || paused || !started) return;
       switch (e.key) {
         case "ArrowUp":
@@ -213,16 +237,13 @@ export default function SnakeGame({ onClose, retryable }: SnakeGameProps) {
         case "ArrowRight":
           if (moveRef.current.x === 0) setDirection({ x: 1, y: 0 });
           break;
-        case " ":
-          setPaused((p) => !p);
-          break;
         default:
           break;
       }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [paused, gameOver, retryable, started]);
+  }, [started, gameOver]);
 
   return (
     <div className="fixed inset-0 z-50 pointer-events-none">
