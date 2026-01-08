@@ -14,7 +14,7 @@ const INITIAL_SNAKE = [
   { x: 8, y: 10 },
 ];
 const INITIAL_DIRECTION = { x: 1, y: 0 };
-const SPEED = 80;
+const SPEED = 90;
 
 type Food = { x: number; y: number };
 
