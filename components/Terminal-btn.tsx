@@ -23,7 +23,11 @@ export default function TerminalBtn() {
     <>
       <button
         className={`absolute top-1 right-2 w-9 h-9 flex items-center justify-center transition-colors
-          ${isActive ? "text-green-500" : "text-gray-400 hover:opacity-80"}`}
+          ${
+            isActive
+              ? "text-green-500"
+              : "text-gray-400 hover:opacity-80 cursor-pointer"
+          }`}
         title="Toggle Terminal"
         onClick={handleButtonClick}
       >
